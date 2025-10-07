@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IU Head First Lounge - Weekly Specials</title>
+    <link rel="icon" href="iu_favicon.ico" type="image/x-icon">
+
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 16px;
+            color: #333333;
+            
+            background-color: #faf0e6; 
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 30px;
+            border: 1px solid #c0c0d0; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        #header-image {
+            width: 50px; 
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        h1 {
+            color: #cc0000;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        
+        h2 {
+            color: #0056b3; 
+            border-bottom: 1px dashed #cccccc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #008000;
+            margin-bottom: 5px;
+        }
+
+        a {
+            color: #0056b3; 
+            text-decoration: none; 
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #cc0000; 
+            text-decoration: underline;
+        }
+
+        blockquote {
+            border: 1px solid #cceeff; 
+            background-color: #e6f7ff; 
+            margin: 20px 0;
+            padding: 15px 20px;
+            font-style: italic;
+            color: #555;
+            box-shadow: 0 0 10px rgba(0, 150, 255, 0.1);
+        }
+        
+        .elixir-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .elixir-item img {
+            width: 60px; 
+            height: 60px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        .elixir-content {
+            flex-grow: 1;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 0.8em;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <header>
+        <a href="https://it.hcmiu.edu.vn/" target="_blank" title="Visit the IU Website">
+            <img id="header-image" src="iu_favicon-32x32.png" alt="IU Logo">
+        </a>
+        <h1>Welcome to the IU Head First Lounge</h1>
+    </header>
+
+    <main>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        <blockquote cite="Project Lead">
+            Our promise at the lounge: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        </blockquote>
+
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <section id="specials">
+            <h2>Weekly Elixir Specials</h2>
+
+            <article class="elixir-item">
+                <img src="lemon.jpg" alt="Lemon Breeze drink">
+                <div class="elixir-content">
+                    <h3>Lemon Breeze</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </article>
+
+            <article class="elixir-item">
+                <img src="chai.jpg" alt="Chai Chiller drink">
+                <div class="elixir-content">
+                    <h3>Chai Chiller</h3>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </article>
+            
+            <article class="elixir-item">
+                <img src="black.jpg" alt="Black Brain Brew drink">
+                <div class="elixir-content">
+                    <h3>Black Brain Brew</h3>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </article>
+        </section>
+
+        <p>Join us any evening for these and other much more <a href="example-menu.html">elixirs</a>.</p>
+
+        <section id="music">
+            <h2>What's Playing at the Lounge</h2>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            
+            <section id="playlist">
+                <!-- Using a definition list for the playlist -->
+                <dl>
+                    <dt>• Faint</dt>
+                    <dd>Linkin Park - Hybrid Theory</dd>
+                    
+                    <dt>• Numb</dt>
+                    <dd>Linkin Park - Meteora</dd>
+                    
+                    <dt>• In The End</dt>
+                    <dd>Linkin Park - Hybrid Theory</dd>
+                    
+                    <dt>• One Step Closer</dt>
+                    <dd>Linkin Park - Hybrid Theory</dd>
+                </dl>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IU Lab 1 WebApp. HeHe.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
