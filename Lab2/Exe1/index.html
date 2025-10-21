@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survey Form</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #f4f6f7;
+      min-height: 100vh;
+      display: flex;              /* center page using flexbox */
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px;
+      box-sizing: border-box;
+    }
+    .page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+    .header-container {
+      text-align: left;         /* center logo */
+      margin-bottom: 0;
+    }
+    .card {
+      background: #fff;
+      width: 640px;
+      max-width: 100%;
+      padding: 24px 28px;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    h1, h3 {
+      color: #008080; /* Teal color */
+    }
+    h1 {
+      margin-top: 0;
+      text-align: left;
+    }
+    .info-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 100%;
+    }
+    .input-group {
+      display: flex;              /* stack label above input */
+      flex-direction: column;
+      gap: 6px;
+    }
+    .input-group label {          /* labels above, no fixed width */
+      width: auto;
+      text-align: left;
+      font-weight: 600;
+    }
+    .input-field {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cfd6dc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font: inherit;
+    }
+    .section-title {
+      margin-top: 24px;
+    }
+    .subtle {
+      margin: 0 0 6px 0;
+      color: #5f6b75;
+      font-size: 0.9rem;
+    }
+    .hearing-container {
+      display: flex;              /* radios inline */
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .announcements-container {
+      margin: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact-method-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0 20px;
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;  /* right-align submit */
+    }
+    .submit-button {
+      padding: 8px 18px;
+      background-color: #008080;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <div class="card">
+      <div class="header-container">
+        <img src="iu_favicon-32x32.png" alt="IU Logo" width="64" height="64">
+      </div>
+      <h1>Survey</h1>
+      <p>If you have a moment, we'd appreciate it if you would fill out this survey.</p>
+      
+      <form>
+        <h3>Your information:</h3>
+        <div class="info-container">
+          <div class="input-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" class="input-field">
+          </div>
+          <div class="input-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" class="input-field">
+          </div>
+          <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="input-field">
+          </div>
+          <div class="input-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" class="input-field">
+          </div>
+        </div>
+
+        <h3 class="section-title">How did you hear about us?</h3>
+        <p class="subtle">Select one:</p>
+        <div class="hearing-container">
+          <label><input type="radio" id="search" name="hearing" value="search" checked> Search Engine</label>
+          <label><input type="radio" id="word" name="hearing" value="word"> Word of mouth</label>
+          <label><input type="radio" id="social" name="hearing" value="social"> Social Media</label>
+          <label><input type="radio" id="other" name="hearing" value="other"> Other</label>
+        </div>
+        
+        <h3>Would you like to receive announcements about new CDs and special offers?</h3>
+        <p class="subtle">Announcements:</p>
+        <div class="announcements-container">
+          <input type="checkbox" id="announcements" name="announcements">
+          <label for="announcements">YES, I'd like that.</label>
+        </div>
+        <div class="announcements-container">
+          <input type="checkbox" id="emailAnnouncements" name="emailAnnouncements">
+          <label for="emailAnnouncements">YES, please send me email announcements.</label>
+        </div>
+        
+        <div class="contact-method-container">
+          <label for="contactMethod">Please contact me by:</label>
+          <select id="contactMethod" name="contactMethod">
+            <option value="email_postal">Email or postal mail</option>
+            <option value="emailOnly">Email only</option>
+            <option value="postal">Postal mail only</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <input type="submit" value="Submit" class="submit-button">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

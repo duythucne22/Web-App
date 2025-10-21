@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Column Flexbox Layout</title>
+    <style>
+        /* A basic reset and box-sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            /* Establishes the overall vertical flex container */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures footer stays at bottom */
+            
+            /* For the fixed-width requirement */
+            width: 960px;
+            margin: 20px auto; /* Centers the layout on the page */
+            border: 2px solid #E6A400; /* Orange border like the diagram */
+
+            /* New: orange background */
+            background-color: #d7720d;
+        }
+
+        /* Styling for Header and Footer */
+        header, footer {
+            background-color: #f2f2f2;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            border-top: 1px solid #ddd;
+            border-bottom: none;
+        }
+
+        /* This is the container for our 3 columns */
+        main {
+            display: flex; /* Makes this a horizontal flex container */
+            flex: 1; /* ✨ Key property: allows this element to grow and fill vertical space */
+        }
+
+        /* Styling for the content columns */
+        article, aside {
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .main-content {
+            /* ✨ Key property: tells this column to take up all remaining space */
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+
+        .sidebar {
+            /* Sets the fixed starting width for the sidebars */
+            flex-basis: 200px;
+            
+            /* Prevents sidebars from shrinking if the window is too small */
+            flex-shrink: 0; 
+            
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Header</h1>
+    </header>
+
+    <main>
+        <aside class="sidebar sidebar-a">
+            <h2>Sidebar A</h2>
+        </aside>
+
+        <article class="main-content">
+            <h2>Main Content</h2>
+            <p>This area will grow to fill any remaining space because it has <strong>flex-grow: 1</strong>.</p>
+        </article>
+
+        <aside class="sidebar sidebar-b">
+            <h2>Sidebar B</h2>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Footer</p>
+    </footer>
+
+</body>
+</html>
