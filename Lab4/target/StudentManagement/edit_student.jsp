@@ -88,6 +88,21 @@
             border: 1px solid #f5c6cb;
             margin-bottom: 20px;
         }
+        .message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .message.success {
+            background-color: #e6ffed;
+            color: #046b24;
+            border-left: 4px solid #2ecc71;
+        }
+        .message.error {
+            background-color: #ffecec;
+            color: #8b0000;
+            border-left: 4px solid #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -159,39 +174,37 @@
     <div class="container">
         <h1>✏️ Edit Student</h1>
         
-        <form action="process_edit.jsp" method="post">
-            <input type="hidden" name="id" value="<%= studentId %>">
-            
-            <div class="form-group">
-                <label for="student_code">Student Code: *</label>
-                <input type="text" id="student_code" name="student_code" 
-                       value="<%= studentCode %>" readonly>
-                <small style="color: #666;">Student code cannot be changed</small>
-            </div>
+        <%-- show error/success and use query params to prefill when redirected after validation error --%>
+        <%
+            String error = request.getParameter("error");
+            String idParam = request.getParameter("id");
+            String student_code_prefill = request.getParameter("student_code");
+            String full_name_prefill = request.getParameter("full_name");
+            String email_prefill = request.getParameter("email");
+            String major_prefill = request.getParameter("major");
+        %>
 
-            <div class="form-group">
-                <label for="full_name">Full Name: *</label>
-                <input type="text" id="full_name" name="full_name" 
-                       value="<%= fullName %>" required>
-            </div>
+        <% if (error != null) { %>
+            <div class="message error"><%= error %></div>
+        <% } %>
 
-            <div class="form-group">
-                <label for="email">Email: *</label>
-                <input type="email" id="email" name="email" 
-                       value="<%= email %>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="major">Major: *</label>
-                <input type="text" id="major" name="major" 
-                       value="<%= major %>" required>
-            </div>
-
-            <div class="btn-group">
-                <button type="submit" class="btn btn-submit">💾 Update Student</button>
-                <a href="list_students.jsp" class="btn btn-cancel">❌ Cancel</a>
-            </div>
+        <form action="process_edit.jsp" method="POST" onsubmit="return submitForm(this)">
+            <input type="hidden" name="id" value="<%= idParam %>">
+            <label>Student Code</label>
+            <input name="student_code" value="<%= (student_code_prefill!=null) ? student_code_prefill : "" %>" readonly>
+            <label>Full Name</label>
+            <input name="full_name" value="<%= (full_name_prefill!=null) ? full_name_prefill : "" %>" required>
+            <label>Email</label>
+            <input name="email" value="<%= (email_prefill!=null) ? email_prefill : "" %>" required>
+            <label>Major</label>
+            <input name="major" value="<%= (major_prefill!=null) ? major_prefill : "" %>" required>
+            <button type="submit">Save</button>
         </form>
+
+        <script>
+        function submitForm(form){ var btn=form.querySelector('button[type=submit]'); btn.disabled=true; btn.textContent='Processing...'; return true; }
+        setTimeout(function(){ document.querySelectorAll('.message').forEach(m=>m.style.display='none'); }, 3000);
+        </script>
     </div>
 </body>
 </html>

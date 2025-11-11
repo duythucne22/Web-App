@@ -1,11 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*, java.net.URLEncoder" %>
 <%
+    // ensure correct encoding before reading params
+    request.setCharacterEncoding("UTF-8");
+
     // Get form parameters
     String studentCode = request.getParameter("student_code");
     String fullName = request.getParameter("full_name");
     String email = request.getParameter("email");
     String major = request.getParameter("major");
+
+    // normalize / trim inputs
+    if (studentCode != null) studentCode = studentCode.trim().toUpperCase(); // upper-case to be forgiving
+    if (fullName != null) fullName = fullName.trim();
+    if (email != null) email = email.trim();
+    if (major != null) major = major.trim();
+
+    // --- Validation: student code pattern ---
+    if (studentCode == null || !studentCode.matches("[A-Z]{2}[0-9]{3,}")) {
+        try {
+            String msg = URLEncoder.encode("Student code must be 2 uppercase letters followed by at least 3 digits","UTF-8");
+            String redirect = "add_student.jsp?error=" + msg
+                + "&student_code=" + URLEncoder.encode(studentCode==null?"":studentCode,"UTF-8")
+                + "&full_name=" + URLEncoder.encode(fullName==null?"":fullName,"UTF-8")
+                + "&email=" + URLEncoder.encode(email==null?"":email,"UTF-8")
+                + "&major=" + URLEncoder.encode(major==null?"":major,"UTF-8");
+            response.sendRedirect(redirect);
+        } catch (java.io.UnsupportedEncodingException e) {
+            response.sendRedirect("add_student.jsp?error=Invalid+student+code");
+        }
+        return;
+    }
+
+    // --- Validation: email format (optional field) ---
+    if (email != null && !email.trim().isEmpty()) {
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)+\\.[A-Za-z]{2,}$")) {
+            try {
+                String msg = URLEncoder.encode("Invalid email format","UTF-8");
+                String redirect = "add_student.jsp?error=" + msg
+                    + "&student_code=" + URLEncoder.encode(studentCode,"UTF-8")
+                    + "&full_name=" + URLEncoder.encode(fullName==null?"":fullName,"UTF-8")
+                    + "&email=" + URLEncoder.encode(email,"UTF-8")
+                    + "&major=" + URLEncoder.encode(major==null?"":major,"UTF-8");
+                response.sendRedirect(redirect);
+            } catch (java.io.UnsupportedEncodingException e) {
+                response.sendRedirect("add_student.jsp?error=Invalid+email+format");
+            }
+            return;
+        }
+    }
 
     Connection conn = null;
     PreparedStatement pstmt = null;
