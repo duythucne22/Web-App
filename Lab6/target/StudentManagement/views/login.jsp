@@ -186,9 +186,10 @@
                        required>
             </div>
             
-            <div class="remember-me">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
+            <!-- Bonus 2: Remember Me -->
+            <div class="remember-me" style="margin-bottom: 20px; display: flex; align-items: center;">
+                <input type="checkbox" id="remember" name="remember" value="on" style="width: auto; margin-right: 8px;">
+                <label for="remember" style="margin: 0;">Remember me for 30 days</label>
             </div>
             
             <button type="submit" class="btn-login">Login</button>

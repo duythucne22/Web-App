@@ -30,6 +30,18 @@ CREATE TABLE users (
     last_login TIMESTAMP NULL
 );
 
+-- Create remember_tokens table (for bonus feature)
+CREATE TABLE IF NOT EXISTS remember_tokens (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_token (token),
+    INDEX idx_expires (expires_at)
+);
+
 -- Insert sample users with PROPER hashed passwords
 -- Run UserDAO.main() first to generate these hashes!
 -- For now, using placeholder - YOU MUST REPLACE THESE

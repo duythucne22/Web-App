@@ -173,6 +173,78 @@ public class UserDAO {
         user.setLastLogin(rs.getTimestamp("last_login"));
         return user;
     }
+
+    /**
+     * Update user password
+     */
+    public boolean updatePassword(int userId, String newHashedPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newHashedPassword);
+            pstmt.setInt(2, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Save remember token to database
+     */
+    public void saveRememberToken(int userId, String token) {
+        String sql = "INSERT INTO remember_tokens (user_id, token, expires_at) " +
+                     "VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 30 DAY))";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, token);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Get user by valid (non-expired) token
+     */
+    public User getUserByToken(String token) {
+        String sql = "SELECT u.* FROM users u " +
+                     "JOIN remember_tokens rt ON u.id = rt.user_id " +
+                     "WHERE rt.token = ? " +
+                     "AND rt.expires_at > NOW() " +
+                     "AND u.is_active = TRUE";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, token);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return mapResultSetToUser(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * Delete remember token from database
+     */
+    public void deleteRememberToken(String token) {
+        String sql = "DELETE FROM remember_tokens WHERE token = ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, token);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * Test method - Generate hashed password

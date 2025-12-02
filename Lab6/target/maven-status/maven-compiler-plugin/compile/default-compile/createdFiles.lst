@@ -1,11 +1,13 @@
+dao\StudentDAO.class
+filter\AdminFilter.class
+controller\DashboardController.class
+controller\StudentController.class
 filter\AuthFilter.class
 controller\LoginController.class
 model\Student.class
-dao\StudentDAO.class
 dao\UserDAO.class
 util\CookieUtil.class
-filter\AdminFilter.class
-controller\DashboardController.class
+controller\ChangePasswordController.class
 controller\LogoutController.class
+controller\ThemeController.class
 model\User.class
-controller\StudentController.class

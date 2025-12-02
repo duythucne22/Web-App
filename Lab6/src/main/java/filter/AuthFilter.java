@@ -1,7 +1,11 @@
 package filter;
 
+import dao.UserDAO;
+import model.User;
+
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -51,6 +55,47 @@ public class AuthFilter implements Filter {
         
         // Check if user is logged in
         HttpSession session = httpRequest.getSession(false);
+        
+        // Bonus 2: Auto-login with Remember Me
+        if (session == null || session.getAttribute("user") == null) {
+            // Check for remember_token cookie
+            String token = null;
+            Cookie[] cookies = httpRequest.getCookies();
+            
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("remember_token".equals(cookie.getName())) {
+                        token = cookie.getValue();
+                        break;
+                    }
+                }
+            }
+            
+            // If remember token exists, try auto-login
+            if (token != null) {
+                UserDAO userDAO = new UserDAO();
+                User user = userDAO.getUserByToken(token);
+                
+                if (user != null) {
+                    // Token is valid - auto-login user
+                    session = httpRequest.getSession(true);
+                    session.setAttribute("user", user);
+                    session.setAttribute("role", user.getRole());
+                    session.setAttribute("fullName", user.getFullName());
+                    
+                    // Continue to requested page
+                    chain.doFilter(request, response);
+                    return;
+                } else {
+                    // Token invalid/expired - delete cookie
+                    Cookie deleteCookie = new Cookie("remember_token", "");
+                    deleteCookie.setMaxAge(0);
+                    deleteCookie.setPath("/");
+                    httpResponse.addCookie(deleteCookie);
+                }
+            }
+        }
+
         boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
         
         if (isLoggedIn) {

@@ -1,8 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+    // Bonus 3: Theme Preference
+    String currentTheme = "light";
+    jakarta.servlet.http.Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (jakarta.servlet.http.Cookie cookie : cookies) {
+            if ("user_theme".equals(cookie.getName())) {
+                currentTheme = cookie.getValue();
+                break;
+            }
+        }
+    }
+%>
 <!DOCTYPE html>
-<html>
+<html data-theme="<%= currentTheme %>">
 <head>
     <meta charset="UTF-8">
     <title>Student List</title>
@@ -161,6 +174,19 @@
             border-radius: 4px;
             min-width: 200px;
         }
+
+        /* Bonus 3: Dark Mode Styles */
+        [data-theme="dark"] body { background: #1a1a1a; color: #e0e0e0; }
+        [data-theme="dark"] .navbar { background: #000; }
+        [data-theme="dark"] table { background: #2d2d2d; color: #e0e0e0; }
+        [data-theme="dark"] th { background: #1f1f1f; color: #fff; border-bottom-color: #444; }
+        [data-theme="dark"] td { border-bottom-color: #444; }
+        [data-theme="dark"] tr:hover { background-color: #333; }
+        [data-theme="dark"] h1 { color: #fff; }
+        
+        .theme-switch { margin-right: 15px; }
+        .theme-switch a { color: white; text-decoration: none; margin: 0 5px; font-size: 12px; opacity: 0.7; }
+        .theme-switch a.active { opacity: 1; font-weight: bold; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -168,6 +194,13 @@
     <div class="navbar">
         <h2>📚 Student Management System</h2>
         <div class="navbar-right">
+            <!-- Bonus 3: Theme Switcher -->
+            <div class="theme-switch">
+                Theme: 
+                <a href="theme?mode=light" class="<%= "light".equals(currentTheme) ? "active" : "" %>">Light</a> | 
+                <a href="theme?mode=dark" class="<%= "dark".equals(currentTheme) ? "active" : "" %>">Dark</a>
+            </div>
+            
             <div class="user-info">
                 <span>Welcome, ${sessionScope.fullName}</span>
                 <span class="role-badge role-${sessionScope.role}">
@@ -406,6 +439,25 @@
             
             window.location.href = url.toString();
         }
+
+        // Bonus 4: Session Timeout Warning
+        const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+        const WARNING_TIME = 5 * 60 * 1000;     // 5 minutes
+        let lastActivity = Date.now();
+        
+        ['mousemove', 'keypress', 'click', 'scroll'].forEach(evt => 
+            document.addEventListener(evt, () => lastActivity = Date.now())
+        );
+        
+        setInterval(() => {
+            const timeLeft = SESSION_TIMEOUT - (Date.now() - lastActivity);
+            if (timeLeft <= 0) {
+                alert('Session expired. Please login again.');
+                window.location.href = 'logout';
+            } else if (timeLeft <= WARNING_TIME) {
+                console.warn('Session expiring soon');
+            }
+        }, 60000);
     </script>
 </body>
 </html>

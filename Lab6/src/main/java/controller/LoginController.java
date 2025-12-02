@@ -5,11 +5,13 @@ import model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -82,8 +84,50 @@ public class LoginController extends HttpServlet {
             
             // Handle "Remember Me" (optional - cookie implementation)
             if ("on".equals(rememberMe)) {
-                // TODO: Implement remember me functionality with cookie
+                // 1. Generate secure random token
+                String token = UUID.randomUUID().toString();
+                
+                // 2. Save token to database (expires in 30 days)
+                userDAO.saveRememberToken(user.getId(), token);
+                
+                // 3. Create secure cookie
+                Cookie rememberCookie = new Cookie("remember_token", token);
+                rememberCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days in seconds
+                rememberCookie.setPath("/");
+                rememberCookie.setHttpOnly(true); // Prevent JavaScript access (XSS protection)
+                // rememberCookie.setSecure(true); // Enable in production with HTTPS
+                response.addCookie(rememberCookie);
             }
+
+            // Bonus 5: Activity Logging with Cookies
+            // Get visit count from cookie
+            int visitCount = 1;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("visit_count".equals(cookie.getName())) {
+                        try {
+                            visitCount = Integer.parseInt(cookie.getValue()) + 1;
+                        } catch (NumberFormatException e) {
+                            visitCount = 1;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Save updated visit count
+            Cookie visitCookie = new Cookie("visit_count", String.valueOf(visitCount));
+            visitCookie.setMaxAge(365 * 24 * 60 * 60); // 1 year
+            visitCookie.setPath("/");
+            response.addCookie(visitCookie);
+
+            // Save last login time
+            Cookie lastLoginCookie = new Cookie("last_login", 
+                String.valueOf(System.currentTimeMillis()));
+            lastLoginCookie.setMaxAge(365 * 24 * 60 * 60);
+            lastLoginCookie.setPath("/");
+            response.addCookie(lastLoginCookie);
             
             // Redirect based on role
             if (user.isAdmin()) {
